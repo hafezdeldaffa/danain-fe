@@ -1,4 +1,8 @@
 export default {
+  server: {
+    port: 8080,
+  },
+
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
@@ -7,7 +11,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'danain-fe',
+    title: 'DanaIN',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -49,13 +53,99 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    // https://auth.nuxtjs.org
+    '@nuxtjs/auth-next',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    baseURL: 'http://danain.up.railway.app',
+    // proxy: true,
   },
+
+  /* proxy: {
+    // Simple proxy
+    '/api/': {
+      target: 'http://danain.up.railway.app',
+    },
+  }, */
+
+  /* auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/api/v1/sessions',
+            method: 'post',
+            propertyName: 'data.token',
+          },
+          logout: false,
+          user: {
+            url: '/api/v1/users/fetch',
+            method: 'get',
+            propertyName: 'data',
+          },
+        },
+        // tokenRequired: true,
+        // tokenType: 'bearer',
+        // globalToken: true,
+        // autoFetchUser: true,
+      },
+    },
+  }, */
+
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'data.token',
+          global: true,
+          // required: true,
+          // type: 'Bearer'
+        },
+        user: {
+          property: 'data',
+          // autoFetch: true
+        },
+        endpoints: {
+          login: { url: '/api/v1/sessions', method: 'post' },
+          logout: { url: '/auth/logout', method: 'post' },
+          user: { url: '/api/v1/users/fetch', method: 'get' },
+        },
+      },
+    },
+  },
+
+  /* auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'data.token',
+          global: true,
+          // required: true,
+          // type: 'Bearer'
+        },
+        user: {
+          property: 'data',
+          // autoFetch: true
+        },
+        endpoints: {
+          login: {
+            url: '/api/api/v1/sessions',
+            method: 'post',
+            propertyName: 'data.token',
+          },
+          logout: { url: '/api/auth/logout', method: 'post' },
+          user: {
+            url: '/api/api/v1/users/fetch',
+            method: 'get',
+            propertyName: 'data',
+          },
+        },
+      },
+    },
+  }, */
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
